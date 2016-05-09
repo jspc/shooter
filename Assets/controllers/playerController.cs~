@@ -1,0 +1,39 @@
+﻿using UnityEngine;
+using System.Collections;
+
+using helpers;
+
+[System.Serializable]
+public class BoundaryLimit {
+	public float xMin, xMax, zMin, zMax;
+}
+
+public class playerController : MonoBehaviour {
+    public int speed;
+
+    private BoundaryLimit boundary;
+    private Rigidbody rb;
+    private float horiz;
+    private float vert;
+
+    void Start () {
+        rb = GetComponent<Rigidbody>();
+        boundary = new BoundaryLimit();
+    }
+
+    void FixedUpdate () {
+        horiz = Input.GetAxis("Horizontal");
+        vert = Input.GetAxis("Vertical");
+
+        rb.velocity = new Vector3(horiz, 0.0f, vert) * speed;
+
+        rb.position = new Vector3(Mathf.Clamp(rb.position.x,
+                                              boundary.xMin,
+                                              boundary.xMax),
+                                  0.0f,
+                                  Mathf.Clamp(rb.position.z,
+                                              boundary.zMin,
+                                              boundary.zMax)
+                                  );
+    }
+}
