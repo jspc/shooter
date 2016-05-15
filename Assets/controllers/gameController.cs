@@ -50,6 +50,12 @@ public class gameController : MonoBehaviour {
         yield return new WaitForSeconds(startWait);
         i = 0;
         while(true) {
+            if (gameover) {
+                restart = true;
+                restartline.text = "press [R] to restart";
+                break;
+            }
+
             position = new Vector3(Random.Range(-defaultSpawnPoint.x, defaultSpawnPoint.x),
                                defaultSpawnPoint.y,
                                defaultSpawnPoint.z);
@@ -59,11 +65,6 @@ public class gameController : MonoBehaviour {
             i++;
 
             if (i >= hazards()){
-                if (gameover) {
-                    restart = true;
-                    restartline.text = "press [R] to restart";
-                    break;
-                }
                 i = 0;
                 incrementLevel();
 
